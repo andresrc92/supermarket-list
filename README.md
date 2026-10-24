@@ -1,6 +1,6 @@
 # Mercadito
 
-A shopping-list app built from real supermarket tickets (Fresh Market / Disco, Macromercado and Frog Maxishop, Montevideo). It runs as an installable Progressive Web App: one static page, no server, no build step.
+A shopping-list app built from real supermarket tickets (Fresh Market / Disco, Macromercado, Frog Maxishop and Tienda Inglesa, Montevideo). It runs as an installable Progressive Web App: one static page, no server, no build step.
 
 ## Features
 

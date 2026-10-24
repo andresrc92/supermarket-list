@@ -26,7 +26,7 @@ img{max-width:100%}
 /* Layout: sticky market header → compact "previous orders" strip → aisle chips → product shelf grid; list opens as a side drawer / bottom sheet with a per-store total comparison */
 :root{
   --bg:#f1f4ee; --surface:#ffffff; --tile:#e8ede3; --ink:#1b2620; --muted:#5b6a61; --line:#dce3d6;
-  --accent:#2c7a4b; --accent-ink:#ffffff; --fresh:#c22f2b; --macro:#1d5ca8; --sun:#f0ab2e; --sun-ink:#3d2a00; --good:#2c7a4b; --store3:#7a4fb5; --frog:#5e8c1f;
+  --accent:#2c7a4b; --accent-ink:#ffffff; --fresh:#c22f2b; --macro:#1d5ca8; --sun:#f0ab2e; --sun-ink:#3d2a00; --good:#2c7a4b; --store3:#7a4fb5; --frog:#5e8c1f; --ti:#c2185b;
   --shadow:0 1px 2px rgba(27,38,32,.06),0 6px 18px rgba(27,38,32,.06);
   --f-display:"Bricolage Grotesque",ui-rounded,system-ui,sans-serif;
   --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -34,11 +34,11 @@ img{max-width:100%}
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#111713; --surface:#19211c; --tile:#222c25; --ink:#e6ede7; --muted:#9caba1; --line:#2b3730;
-  --accent:#5cc085; --accent-ink:#0c1a11; --fresh:#ff6d61; --macro:#6ea8ff; --sun:#f3c25a; --sun-ink:#2b1d00; --good:#5cc085; --store3:#b892f2; --frog:#9fd45f;
+  --accent:#5cc085; --accent-ink:#0c1a11; --fresh:#ff6d61; --macro:#6ea8ff; --sun:#f3c25a; --sun-ink:#2b1d00; --good:#5cc085; --store3:#b892f2; --frog:#9fd45f; --ti:#f27aa8;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px rgba(0,0,0,.25); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#111713; --surface:#19211c; --tile:#222c25; --ink:#e6ede7; --muted:#9caba1; --line:#2b3730;
-  --accent:#5cc085; --accent-ink:#0c1a11; --fresh:#ff6d61; --macro:#6ea8ff; --sun:#f3c25a; --sun-ink:#2b1d00; --good:#5cc085; --store3:#b892f2; --frog:#9fd45f;
+  --accent:#5cc085; --accent-ink:#0c1a11; --fresh:#ff6d61; --macro:#6ea8ff; --sun:#f3c25a; --sun-ink:#2b1d00; --good:#5cc085; --store3:#b892f2; --frog:#9fd45f; --ti:#f27aa8;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px rgba(0,0,0,.25); color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -423,7 +423,8 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:va
 const STORES = {
   fresh:{name:"Fresh Market", sub:"Disco · Av. Italia 4280", color:"var(--fresh)"},
   macro:{name:"Macromercado", sub:"Mayorista · Dr. J. Pugnalini 1847", color:"var(--macro)"},
-  frog:{name:"Frog Maxishop", sub:"Canelones 2185", color:"var(--frog)"}
+  frog:{name:"Frog Maxishop", sub:"Canelones 2185", color:"var(--frog)"},
+  ti:{name:"Tienda Inglesa", sub:"José B. Ordóñez 3770", color:"var(--ti)"}
 };
 const IVA = {B:1.22, M:1.10, E:1};
 const tax=(ex,t)=>Math.round(ex*IVA[t]*100)/100;
@@ -470,16 +471,17 @@ const P = [
 
  {id:"coke",n:"Coca-Cola Zero 2.25 L",d:"Soft drink, no sugar",c:"drinks",u:"un",pr:{fresh:195,macro:tax(178.44,"B")},a:["bottle","#20120f","#111111","ZERO"]},
  {id:"pdlt",n:"Paso de los Toros pomelo 2.5 L",d:"Grapefruit soda, no sugar",c:"drinks",u:"un",pr:{fresh:172,macro:tax(172.94,"B")},a:["bottle","#f2b8a0","#1b5e3a","POMELO"]},
- {id:"salus-pack",n:"Agua Salus 2.25 L pack 4×3",d:"Mineral water pack",c:"drinks",u:"un",pr:{fresh:246,macro:tax(225.60,"B")},a:["pack","#2d7fd0","#e6f1fb","SALUS"]},
- {id:"salus-bidon",n:"Agua Salus sin gas 6.25 L",d:"Still water bidón",c:"drinks",u:"un",pr:{macro:tax(119.00,"B")},a:["jug","#5fb0ea","#ffffff","SALUS"]},
+ {id:"salus-pack",n:"Agua Salus 2.25 L pack 4×3",d:"Mineral water pack",c:"drinks",u:"un",pr:{fresh:246,macro:tax(225.60,"B"),ti:255},a:["pack","#2d7fd0","#e6f1fb","SALUS"]},
+ {id:"salus-bidon",n:"Agua Salus sin gas 6.25 L",d:"Still water bidón",c:"drinks",u:"un",pr:{macro:tax(119.00,"B"),ti:148},a:["jug","#5fb0ea","#ffffff","SALUS"]},
 
  {id:"fries",n:"Papas McCain tradicionales 2 kg",d:"Frozen fries",c:"frozen",u:"un",pr:{macro:tax(217.31,"B")},a:["bag","#f2c230","#c8202a","FRIES"]},
  {id:"nuggets",n:"Nuggets crocantes Sadia 3 kg",d:"Frozen chicken nuggets",c:"frozen",u:"un",pr:{macro:tax(748.46,"B")},a:["box","#1a4f9c","#f2a33a","NUGGETS"]},
 
  {id:"mrmusculo",n:"Mr Músculo cocina 450 cc",d:"Kitchen degreaser, refill",c:"cleaning",u:"un",pr:{macro:tax(127.17,"B")},a:["spray","#e8562e","#ffffff","COCINA"]},
  {id:"cifvidrio",n:"Cif Vidrio Expert 900 ml",d:"Glass cleaner, refill",c:"cleaning",u:"un",pr:{macro:tax(209.05,"B")},a:["spray","#38a9e0","#ffffff","VIDRIO"]},
- {id:"toallas",n:"Toallas Nova megarrollo",d:"Kitchen towel, 250 sheets",c:"cleaning",u:"un",pr:{macro:tax(131.94,"B")},a:["roll","#ffffff","#2d7fd0"]},
+ {id:"toallas",n:"Toallas Nova megarrollo",d:"Kitchen towel, 250 sheets",c:"cleaning",u:"un",pr:{macro:tax(131.94,"B"),ti:163},a:["roll","#ffffff","#2d7fd0"]},
  {id:"cifdet",n:"Detergente Cif Bioactive lima 1.25 L",d:"Dish soap",c:"cleaning",u:"un",pr:{macro:tax(213.84,"M")},a:["shampoo","#8cc63f","#ffffff","CIF"]},
+ {id:"bolsas-res",n:"Bolsas de residuos Tienda Inglesa",d:"Garbage bags, roll",c:"cleaning",u:"un",pr:{ti:177},a:["roll","#2b2b2b","#c2185b"]},
  {id:"fabuloso",n:"Fabuloso lavanda 5 L",d:"Floor cleaner",c:"cleaning",u:"un",pr:{macro:tax(436.91,"B")},a:["jug","#8c5bc4","#ffffff","5L"]},
  {id:"lysoform",n:"Lysoform cítrico 360 cc",d:"Disinfectant spray",c:"cleaning",u:"un",pr:{macro:tax(235.30,"B")},a:["can","#f2c230","#1f5f9c","LYSOFORM"]},
  {id:"cera",n:"Cera líquida H natural 1 L",d:"Floor wax",c:"cleaning",u:"un",pr:{macro:tax(327.64,"B")},a:["jug","#c98a2b","#ffffff","CERA"]},
@@ -523,6 +525,7 @@ const priceAt=(p,s)=>p.pr[s]!=null?p.pr[s]:(p.p||0);
 const isoOf=o=>o.iso||(()=>{const d=new Date(o.date); return isNaN(d)?"":new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);})();
 const allOrders=()=>[...catalog.orders,...ORDERS].sort((a,b)=>isoOf(b).localeCompare(isoOf(a)));
 const ORDERS=[
+ {id:"o-ti",s:"ti",date:"24 Oct 2026",iso:"2026-10-24",total:1269.00,ticket:"e-Ticket V 1979399",lines:[["salus-bidon",2],["toallas",1],["bolsas-res",2],["salus-pack",2]]},
  {id:"o-frog",s:"frog",date:"23 Oct 2026",iso:"2026-10-23",total:1463.00,ticket:"e-Ticket BR8013104",lines:[["salsa4q",1],["matutina",2],["fernet",1],["hielo",1],["trebol",1]]},
  {id:"o-fresh",s:"fresh",date:"11 Oct 2026",iso:"2026-10-11",total:6090.91,ticket:"e-Ticket 8743364",lines:[["adobo",1],["ajo",2],["bolsa",1],["canela",1],["cebolla",1.5],["frutilla",.25],["inspirada",1],["mandarina",1],["manzana",2],["morron",.5],["salus-pack",2],["pita",.5],["papa",1.5],["picana",1.25],["parm-rallado",1],["coke",6],["pdlt",6],["cherry",1],["yogur",2],["zapallito",1],["kabutia",1.5]]},
  {id:"o-macro",s:"macro",date:"18 Sep 2026",iso:"2026-09-18",total:10531.00,ticket:"e-Ticket F 5264462",lines:[["coke",6],["fries",1],["huevos",1],["nuggets",1],["jamon",.4],["manteca",1],["emmental",.2],["mrmusculo",1],["pimenton",1],["farming",.3],["parm-aguilera",.2],["cifvidrio",1],["pdlt",6],["levadura",1],["salus-pack",3],["hs-caida",2],["hs-coco",2],["arroz",1],["yerba",1],["toallas",1],["fideos",1],["pulpa",2],["alfajor",1],["cifdet",1],["tortuga",1],["papa",5],["bimbo",1],["fabuloso",1],["lysoform",1],["cera",1],["salus-bidon",2]]},
