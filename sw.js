@@ -1,6 +1,6 @@
 /* Mercadito service worker: works offline after the first visit.
    Bump VERSION whenever index.html or the icons change. */
-const VERSION = "v1";
+const VERSION = "v2";
 const SHELL = `mercadito-shell-${VERSION}`;
 const RUNTIME = `mercadito-runtime-${VERSION}`;
 const ASSETS = [

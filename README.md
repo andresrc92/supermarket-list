@@ -1,12 +1,13 @@
 # Mercadito
 
-A shopping-list app built from real supermarket tickets (Fresh Market / Disco and Macromercado, Montevideo). It runs as an installable Progressive Web App: one static page, no server, no build step.
+A shopping-list app built from real supermarket tickets (Fresh Market / Disco, Macromercado and Frog Maxishop, Montevideo). It runs as an installable Progressive Web App: one static page, no server, no build step.
 
 ## Features
 
 - **Shop:** catalog of products from past tickets, with one search bar that suggests matches and offers to add a product when none is found.
 - **Shopping list:** quantities, a per-store total for the whole list, and which store is cheapest.
 - **Shopping now:** a picking screen grouped by aisle. Tap items as they go in the cart, with a progress bar and running total.
+- **Stock:** every item you've bought with the date you last bought it, sorted by longest ago, to spot what's running low.
 - **Previous orders:** past tickets with totals and one-tap reorder.
 - **Unit price calculator:** compare $/L, $/kg or $/unit across sizes and packs (mL vs L, g vs kg).
 - **Works offline** after the first visit, and installs to the home screen.
@@ -31,7 +32,7 @@ Service workers need `http://localhost` or HTTPS; opening the file directly work
 
 ## Deploy
 
-Pushing to `main` deploys to GitHub Pages through `.github/workflows/pages.yml`. If the first run fails, enable Pages once: **Settings → Pages → Source: GitHub Actions**, then re-run the workflow.
+Pushing to `main` deploys to GitHub Pages through `.github/workflows/pages.yml`. Pages must be turned on once: **Settings → Pages → Source: GitHub Actions**. On a free GitHub account the repository has to be public for Pages to work (private repos need GitHub Pro).
 
 When you change `index.html` or the icons, bump `VERSION` in `sw.js` so installed copies pick up the update.
 

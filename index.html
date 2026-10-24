@@ -26,7 +26,7 @@ img{max-width:100%}
 /* Layout: sticky market header → compact "previous orders" strip → aisle chips → product shelf grid; list opens as a side drawer / bottom sheet with a per-store total comparison */
 :root{
   --bg:#f1f4ee; --surface:#ffffff; --tile:#e8ede3; --ink:#1b2620; --muted:#5b6a61; --line:#dce3d6;
-  --accent:#2c7a4b; --accent-ink:#ffffff; --fresh:#c22f2b; --macro:#1d5ca8; --sun:#f0ab2e; --sun-ink:#3d2a00; --good:#2c7a4b; --store3:#7a4fb5;
+  --accent:#2c7a4b; --accent-ink:#ffffff; --fresh:#c22f2b; --macro:#1d5ca8; --sun:#f0ab2e; --sun-ink:#3d2a00; --good:#2c7a4b; --store3:#7a4fb5; --frog:#5e8c1f;
   --shadow:0 1px 2px rgba(27,38,32,.06),0 6px 18px rgba(27,38,32,.06);
   --f-display:"Bricolage Grotesque",ui-rounded,system-ui,sans-serif;
   --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -34,11 +34,11 @@ img{max-width:100%}
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#111713; --surface:#19211c; --tile:#222c25; --ink:#e6ede7; --muted:#9caba1; --line:#2b3730;
-  --accent:#5cc085; --accent-ink:#0c1a11; --fresh:#ff6d61; --macro:#6ea8ff; --sun:#f3c25a; --sun-ink:#2b1d00; --good:#5cc085; --store3:#b892f2;
+  --accent:#5cc085; --accent-ink:#0c1a11; --fresh:#ff6d61; --macro:#6ea8ff; --sun:#f3c25a; --sun-ink:#2b1d00; --good:#5cc085; --store3:#b892f2; --frog:#9fd45f;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px rgba(0,0,0,.25); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#111713; --surface:#19211c; --tile:#222c25; --ink:#e6ede7; --muted:#9caba1; --line:#2b3730;
-  --accent:#5cc085; --accent-ink:#0c1a11; --fresh:#ff6d61; --macro:#6ea8ff; --sun:#f3c25a; --sun-ink:#2b1d00; --good:#5cc085; --store3:#b892f2;
+  --accent:#5cc085; --accent-ink:#0c1a11; --fresh:#ff6d61; --macro:#6ea8ff; --sun:#f3c25a; --sun-ink:#2b1d00; --good:#5cc085; --store3:#b892f2; --frog:#9fd45f;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 20px rgba(0,0,0,.25); color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -146,7 +146,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:va
 .row.done .thumb{opacity:.5}
 .dfoot{border-top:1px solid var(--line);padding:14px 18px calc(14px + env(safe-area-inset-bottom,0px));background:var(--surface)}
 .where{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
-.storecmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.storecmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px}
 .sopt{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0;position:relative}
 .sopt.best{border-color:var(--good);background:color-mix(in srgb,var(--good) 8%,var(--surface))}
 .sopt .nm{display:flex;align-items:center;gap:7px;font-weight:700;font-size:14px}
@@ -293,6 +293,26 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:va
 .sync[data-s="err"] .sdot{background:var(--fresh)}
 .hsync{width:10px;height:10px;border-radius:50%;background:var(--muted);flex:none;margin-left:-6px}
 .hsync[data-s="ok"]{background:var(--good)} .hsync[data-s="saving"]{background:var(--sun)} .hsync[data-s="err"]{background:var(--fresh)}
+/* stock */
+.stockbar{display:grid;grid-template-columns:1fr minmax(150px,200px);gap:10px;padding-top:16px}
+@media (max-width:460px){.stockbar{grid-template-columns:1fr}}
+.stocksum{display:flex;gap:10px;flex-wrap:wrap;padding-top:14px}
+.stocksum span{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:5px 12px;font-size:13px;color:var(--muted)}
+.stocksum b{color:var(--ink)}
+.slist{margin-top:12px;background:var(--surface);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.srow{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line)}
+.srow:last-child{border-bottom:0}
+.srow .thumb{width:48px;height:48px}
+.srow .thumb svg{width:40px;height:40px}
+.srow .sn{font-weight:700;font-size:14.5px;line-height:1.25}
+.srow .sm{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:3px;align-items:center}
+.srow .sm .st{display:inline-flex;align-items:center;gap:5px}
+.srow .sd{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right}
+.age{font-size:12px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap;background:var(--tile);color:var(--muted)}
+.age.fresh{background:color-mix(in srgb,var(--good) 14%,transparent);color:var(--good)}
+.age.old{background:color-mix(in srgb,var(--sun) 22%,transparent);color:var(--sun-ink)}
+.sadd{height:30px;padding:0 12px;border-radius:9px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-weight:700;font-size:12.5px;white-space:nowrap}
+.sadd.on{background:var(--accent);color:var(--accent-ink)}
 .offline{background:var(--ink);color:var(--bg);text-align:center;font-size:13px;font-weight:600;padding:6px 16px}
 .copyarea{width:100%;height:120px;margin-top:10px;font-family:var(--f-mono);font-size:12px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px}
 </style>
@@ -319,6 +339,15 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:va
   <section id="view-pick" hidden>
     <div class="viewhead"><h1>Shopping now</h1><p>Tap an item when it's in the cart. Items are grouped by aisle.</p></div>
     <div id="pick"></div>
+  </section>
+
+  <section id="view-stock" hidden style="padding-bottom:110px">
+    <div class="viewhead"><h1>Stock</h1><p>Everything you've bought, with the last time you bought it. Use it to spot what's probably running low.</p></div>
+    <div class="stockbar">
+      <label class="fld stock-q"><span>Find</span><input id="stockQ" type="search" placeholder="Filter items" autocomplete="off"></label>
+      <label class="fld"><span>Sort by</span><select id="stockSort"><option value="oldest">Longest ago first</option><option value="recent">Most recent first</option><option value="name">Name</option></select></label>
+    </div>
+    <div id="stock"></div>
   </section>
 
   <section id="view-orders" hidden>
@@ -373,6 +402,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:va
   <nav>
     <button class="navi" data-view="shop"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9l1.5-5h13L20 9"/><path d="M4 9h16v11H4z"/><path d="M9 20v-6h6v6"/></svg><span>Shop<small>All products</small></span></button>
     <button class="navi" data-view="pick"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8 9 1.5 1.5L12 8M8 15l1.5 1.5L12 14M14 9h2M14 15h2"/></svg><span>Shopping now<small>Pick and check off items</small></span><span class="cnt" id="pickCount" hidden></span></button>
+    <button class="navi" data-view="stock"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg><span>Stock<small>When you last bought each item</small></span></button>
     <button class="navi" data-view="orders"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg><span>Previous orders<small>Tickets and reorder</small></span></button>
     <button class="navi" data-view="scan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><span>Scan a ticket<small>Update prices from a photo</small></span></button>
     <button class="navi" data-view="calc"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/></svg><span>Unit price calculator<small>Compare $/L, $/kg, $/unit</small></span></button>
@@ -392,7 +422,8 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:va
 <script>
 const STORES = {
   fresh:{name:"Fresh Market", sub:"Disco · Av. Italia 4280", color:"var(--fresh)"},
-  macro:{name:"Macromercado", sub:"Mayorista · Dr. J. Pugnalini 1847", color:"var(--macro)"}
+  macro:{name:"Macromercado", sub:"Mayorista · Dr. J. Pugnalini 1847", color:"var(--macro)"},
+  frog:{name:"Frog Maxishop", sub:"Canelones 2185", color:"var(--frog)"}
 };
 const IVA = {B:1.22, M:1.10, E:1};
 const tax=(ex,t)=>Math.round(ex*IVA[t]*100)/100;
@@ -455,6 +486,11 @@ const P = [
 
  {id:"hs-caida",n:"Champú H&S Protección Caída 300 ml",d:"Shampoo + conditioner",c:"care",u:"un",pr:{macro:tax(481.96,"B")},a:["shampoo","#1b3a6b","#ffffff","H&S"]},
  {id:"hs-coco",n:"Champú H&S Coconut 375 ml",d:"Shampoo",c:"care",u:"un",pr:{macro:tax(481.96,"B")},a:["shampoo","#f3efe6","#2b8f7a","H&S"]},
+ {id:"salsa4q",n:"Salsa 4 quesos",d:"Four-cheese pasta sauce",c:"pantry",u:"un",pr:{frog:239},a:["jar","#f2e3b0","#c8902c","4 QUESOS"]},
+ {id:"matutina",n:"Agua Matutina con gas 2.5 L",d:"Sparkling water",c:"drinks",u:"un",pr:{frog:66},a:["bottle","#7cc4ec","#1d5ca8","MATUTINA"]},
+ {id:"fernet",n:"Fernet Branca 750 ml",d:"Herbal liqueur",c:"drinks",u:"un",pr:{frog:755},a:["bottle","#2a2a22","#f2e9d0","FERNET"]},
+ {id:"hielo",n:"Hielo Frío Kubo 3 kg",d:"Ice cubes",c:"frozen",u:"un",pr:{frog:85},a:["bag","#e6f4fb","#4aa3d8","HIELO"]},
+ {id:"trebol",n:"Queso rallado Trébol 180 g",d:"Grated cheese",c:"dairy",u:"un",pr:{frog:252},a:["bag","#f2c94c","#2e7d32","TRÉBOL"]},
  {id:"bolsa",n:"Bolsa reutilizable",d:"Reusable shopping bag",c:"other",u:"un",pr:{fresh:22},a:["tote","#3f8f5a","#e7f2ea"]},
 ];
 /* your own additions, kept in this browser: typed-in products, prices from scanned tickets, new stores, scanned orders */
@@ -484,10 +520,12 @@ rebuild();
 const priceAt=(p,s)=>p.pr[s]!=null?p.pr[s]:(p.p||0);
 
 /* previous orders, from the two tickets */
-const allOrders=()=>[...catalog.orders,...ORDERS];
+const isoOf=o=>o.iso||(()=>{const d=new Date(o.date); return isNaN(d)?"":new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);})();
+const allOrders=()=>[...catalog.orders,...ORDERS].sort((a,b)=>isoOf(b).localeCompare(isoOf(a)));
 const ORDERS=[
- {id:"o-fresh",s:"fresh",date:"11 Oct 2026",total:6090.91,ticket:"e-Ticket 8743364",lines:[["adobo",1],["ajo",2],["bolsa",1],["canela",1],["cebolla",1.5],["frutilla",.25],["inspirada",1],["mandarina",1],["manzana",2],["morron",.5],["salus-pack",2],["pita",.5],["papa",1.5],["picana",1.25],["parm-rallado",1],["coke",6],["pdlt",6],["cherry",1],["yogur",2],["zapallito",1],["kabutia",1.5]]},
- {id:"o-macro",s:"macro",date:"18 Sep 2026",total:10531.00,ticket:"e-Ticket F 5264462",lines:[["coke",6],["fries",1],["huevos",1],["nuggets",1],["jamon",.4],["manteca",1],["emmental",.2],["mrmusculo",1],["pimenton",1],["farming",.3],["parm-aguilera",.2],["cifvidrio",1],["pdlt",6],["levadura",1],["salus-pack",3],["hs-caida",2],["hs-coco",2],["arroz",1],["yerba",1],["toallas",1],["fideos",1],["pulpa",2],["alfajor",1],["cifdet",1],["tortuga",1],["papa",5],["bimbo",1],["fabuloso",1],["lysoform",1],["cera",1],["salus-bidon",2]]},
+ {id:"o-frog",s:"frog",date:"23 Oct 2026",iso:"2026-10-23",total:1463.00,ticket:"e-Ticket BR8013104",lines:[["salsa4q",1],["matutina",2],["fernet",1],["hielo",1],["trebol",1]]},
+ {id:"o-fresh",s:"fresh",date:"11 Oct 2026",iso:"2026-10-11",total:6090.91,ticket:"e-Ticket 8743364",lines:[["adobo",1],["ajo",2],["bolsa",1],["canela",1],["cebolla",1.5],["frutilla",.25],["inspirada",1],["mandarina",1],["manzana",2],["morron",.5],["salus-pack",2],["pita",.5],["papa",1.5],["picana",1.25],["parm-rallado",1],["coke",6],["pdlt",6],["cherry",1],["yogur",2],["zapallito",1],["kabutia",1.5]]},
+ {id:"o-macro",s:"macro",date:"18 Sep 2026",iso:"2026-09-18",total:10531.00,ticket:"e-Ticket F 5264462",lines:[["coke",6],["fries",1],["huevos",1],["nuggets",1],["jamon",.4],["manteca",1],["emmental",.2],["mrmusculo",1],["pimenton",1],["farming",.3],["parm-aguilera",.2],["cifvidrio",1],["pdlt",6],["levadura",1],["salus-pack",3],["hs-caida",2],["hs-coco",2],["arroz",1],["yerba",1],["toallas",1],["fideos",1],["pulpa",2],["alfajor",1],["cifdet",1],["tortuga",1],["papa",5],["bimbo",1],["fabuloso",1],["lysoform",1],["cera",1],["salus-bidon",2]]},
 ];
 
 /* ---------- product illustrations (inline SVG) ---------- */
@@ -627,8 +665,9 @@ function renderAll(){renderOrders();renderChips();renderGrid();renderList();rend
 let view="shop";
 function setView(v){
   view=v;
-  ["shop","pick","orders","calc","scan"].forEach(k=>$("view-"+k).hidden=k!==v);
+  ["shop","pick","stock","orders","calc","scan"].forEach(k=>$("view-"+k).hidden=k!==v);
   if(v==="pick") renderPick();
+  if(v==="stock") renderStock();
   $("fab").style.display=v==="pick"?"none":"";
   document.querySelectorAll(".navi").forEach(n=>{if(n.dataset.view===v) n.setAttribute("aria-current","page"); else n.removeAttribute("aria-current");});
   openMenu(false); window.scrollTo(0,0);
@@ -988,7 +1027,7 @@ $("review").addEventListener("click",e=>{
     lines.push([id,round2(+it.qty||1)]);
   });
   const tot=parseFloat(String(R.total).replace(",","."));
-  catalog.orders.unshift({id:"o-"+Date.now().toString(36),s:store,date:fmtDate(R.date),ticket:"Scanned ticket",total:isFinite(tot)&&tot>0?tot:null,lines});
+  catalog.orders.unshift({id:"o-"+Date.now().toString(36),s:store,date:fmtDate(R.date),iso:R.date,ticket:"Scanned ticket",total:isFinite(tot)&&tot>0?tot:null,lines});
   saveCatalog(); rebuild(); scanRes=null; scanFiles=[]; $("scanFile").value=""; $("previews").innerHTML=""; renderReview(); setScanStatus("");
   renderAll(); setView("orders");
   toast(`Saved · ${nPrice} prices updated${nNew?`, ${nNew} new products`:""}`);
@@ -1035,7 +1074,7 @@ function applyRemote(k,d){
   }
   return true;
 }
-function softRender(){renderOrders();renderChips();renderGrid();renderList();}
+function softRender(){renderOrders();renderChips();renderGrid();renderList();if(view==="stock")renderStock();}
 (async()=>{
   if(!(window.claude&&window.claude.use)){setSync("local","Saved on this device only");return;}
   let db=null,user=null;
@@ -1065,6 +1104,38 @@ function softRender(){renderOrders();renderChips();renderGrid();renderList();}
     },err=>{ setSync("err",err&&err.code==="revoked"?"Sync stopped. Saved on this device.":"Sync paused. Reload the page to reconnect."); });
   }
 })();
+
+/* ---------- stock: last purchase per item, from every order ---------- */
+function lastPurchases(){
+  const last={};
+  for(const o of allOrders()){
+    const iso=isoOf(o); if(!iso) continue;
+    for(const [id,q] of o.lines){
+      if(!byId[id]) continue;
+      if(!last[id]||iso>last[id].iso) last[id]={iso,date:o.date,store:o.s,qty:q,price:byId[id].pr[o.s]};
+    }
+  }
+  return last;
+}
+function daysSince(iso){const t=new Date(); const today=Date.UTC(t.getFullYear(),t.getMonth(),t.getDate()); const [y,m,d]=iso.split("-").map(Number); return Math.round((today-Date.UTC(y,m-1,d))/864e5);}
+const agoText=n=>n<=0?"Today":n===1?"Yesterday":n<14?`${n} days ago`:n<60?`${Math.round(n/7)} weeks ago`:`${Math.round(n/30)} months ago`;
+function renderStock(){
+  const last=lastPurchases(), q=norm($("stockQ").value.trim()), sort=$("stockSort").value;
+  let ids=Object.keys(last).filter(id=>!q||norm(byId[id].n+" "+byId[id].d).includes(q));
+  ids.sort((a,b)=>sort==="name"?byId[a].n.localeCompare(byId[b].n,"es"):sort==="recent"?last[b].iso.localeCompare(last[a].iso)||byId[a].n.localeCompare(byId[b].n,"es"):last[a].iso.localeCompare(last[b].iso)||byId[a].n.localeCompare(byId[b].n,"es"));
+  const all=Object.keys(last), month=all.filter(id=>daysSince(last[id].iso)>30).length, never=P.length-all.length;
+  $("stock").innerHTML=`<div class="stocksum"><span><b>${all.length}</b> items bought</span><span><b>${month}</b> not bought in 30+ days</span>${never?`<span>${never} never bought (not shown)</span>`:""}</div>`+
+   (ids.length?`<div class="slist">${ids.map(id=>{const p=byId[id],l=last[id],n=daysSince(l.iso),s=STORES[l.store]||{name:"Store",color:"var(--muted)"};
+     return `<div class="srow">
+       <span class="thumb">${art(p.a)}</span>
+       <div style="min-width:0"><div class="sn">${p.n}</div>
+         <div class="sm"><span>Last bought ${fmtDate(l.iso)}</span><span class="st" style="--sc:${s.color}"><span class="dot"></span>${s.name}</span><span class="mono">${fmtQ(p,l.qty)}${l.price!=null?" · "+money(l.price)+(p.u==="kg"?"/kg":" each"):""}</span></div></div>
+       <div class="sd"><span class="age ${n<=14?"fresh":n>30?"old":""}">${agoText(n)}</span><button class="sadd ${st.list[id]?"on":""}" data-stockadd="${id}">${st.list[id]?"✓ On list":"＋ Add"}</button></div>
+     </div>`}).join("")}</div>`:`<div class="blank"><b>No items match</b>Try another word.</div>`);
+}
+$("stockQ").addEventListener("input",renderStock);
+$("stockSort").addEventListener("change",renderStock);
+$("stock").addEventListener("click",e=>{const b=e.target.closest("[data-stockadd]"); if(!b) return; const id=b.dataset.stockadd; if(st.list[id]){openList(true);return;} addToList(id); renderStock();});
 
 renderAll();
 setView("shop");
